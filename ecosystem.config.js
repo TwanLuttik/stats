@@ -2,7 +2,11 @@ module.exports = {
 	apps: [
 		{
 			name: 'server',
-			script: './src/index.ts',
+			script: 'pnpm',
+			args: 'dev',
+			env: {
+				NODE_ENV: 'production',
+			},
 		},
 	],
 };
