@@ -45,7 +45,7 @@ export const extractDailyMetrics = async () => {
 	const x2 = await db.selectOne(
 		`WITH date_range AS (
       SELECT generate_series(
-               CURRENT_DATE - INTERVAL '30 days', -- Start date (e.g., 30 days ago)
+               CURRENT_DATE - INTERVAL '30 days', -- Start date (e.g., 1 days ago)
                CURRENT_DATE,                      -- End date (today)
                INTERVAL '1 day'                   -- Interval (1 day)
              )::date AS date
