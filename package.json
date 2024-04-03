@@ -11,7 +11,7 @@
 		"dev": "pnpm nodemon --watch 'src/**' --ext 'ts,json' --exec 'ts-node -r tsconfig-paths/register ./src/index.ts'",
 		"build": "rm -rf ./dist && tsc && rm -rf ./lib && ./node_modules/.bin/babel dist --out-dir lib",
 		"build-run": "yarn build && node ./lib/index.js",
-		"prod": "NODE_ENV=production tsc-watch --onSuccess \"node ./dist/index.js\"",
+		"prod": "NODE_ENV=production pnpm nodemon --watch 'src/**' --ext 'ts,json' --exec 'ts-node -r tsconfig-paths/register ./src/index.ts'",
 		"docker": "docker-compose -p somename-dev -f docker-compose.dev.yml up",
 		"db_migrate": "pnpm prisma migrate deploy",
 		"db_sync": "pnpm prisma db pull && pnpm prisma generate"
