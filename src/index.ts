@@ -9,6 +9,9 @@ import { registerPlugins } from './utils/FastPlugins';
 
 import colors from 'colors';
 
+require('./services/database');
+require('./jobs');
+
 export const fast: FastifyInstance = fastify({ trustProxy: true, logger: true });
 
 export const initializeServer = async (incomingConfig?: InitilizeConfig) => {
@@ -18,7 +21,7 @@ export const initializeServer = async (incomingConfig?: InitilizeConfig) => {
 	// Register the routes
 	await registerRoutes();
 
-	fast.listen({ port: incomingConfig?.port || 8080, host: incomingConfig?.host || '0.0.0.0' }, (err, address) => {
+	fast.listen({ port: incomingConfig?.port || 3050, host: incomingConfig?.host || '0.0.0.0' }, (err, address) => {
 		if (err) {
 			throw err;
 		} else

@@ -4,6 +4,7 @@ yarn-error.log
 .idea
 
 .env
+.env.*
 .env.prod
 
 lib
