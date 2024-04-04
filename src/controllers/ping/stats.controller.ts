@@ -1,7 +1,8 @@
 import { customResponse } from '@internal/logic';
 import { RouteArgs } from '@internal/server';
-import { db } from 'services';
+import { extractDailyMetrics } from 'job.controller';
 
-export const ping = async ({ req, res }: RouteArgs): Promise<any> => {
-	return customResponse(res, { success: 'pong' });
+export const updateDailyMetrics = async ({ req, res }: RouteArgs): Promise<any> => {
+	await extractDailyMetrics();
+	return customResponse(res, { success: 'done' });
 };

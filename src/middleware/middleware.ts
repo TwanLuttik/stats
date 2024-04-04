@@ -1,4 +1,4 @@
-import { catchResponseHandler } from '@internal/logic';
+import { catchResponseHandler, customResponse } from '@internal/logic';
 import { IRoutePermission, RouteArgs } from '@internal/server';
 
 export const permissionsHandler = async ({ req, res }: RouteArgs, permission: IRoutePermission): Promise<any> => {
@@ -16,8 +16,11 @@ export const permissionsHandler = async ({ req, res }: RouteArgs, permission: IR
 const authHandler = async ({ req, res }: RouteArgs): Promise<boolean> => {
 	try {
 		// handle auth logic
-
-		return;
+		if (req.headers['auth_token'] === 'fnjdo2fo5hcwp5248onf') {
+			return;
+		} else {
+			return customResponse(res, { error: 'no auth' });
+		}
 	} catch (error) {
 		catchResponseHandler(res, error);
 	}
