@@ -9,6 +9,12 @@ import { registerPlugins } from './utils/FastPlugins';
 
 import colors from 'colors';
 
+import dayjs from 'dayjs';
+
+var utc = require('dayjs/plugin/utc');
+
+dayjs.extend(utc);
+
 require('./services/database');
 require('./jobs');
 

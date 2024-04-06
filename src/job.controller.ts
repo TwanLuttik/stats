@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
 import { db } from 'services';
 import { prisma } from 'services/prisma';
 
 export const extractDailyMetrics = async () => {
 	console.log('Inserting accounts signups count');
-	// Signups
+
 	const x1 = await db.select<any>(
 		`WITH date_range AS (
       SELECT
@@ -25,10 +26,14 @@ export const extractDailyMetrics = async () => {
     ORDER BY
       date_range.date;`
 	);
-	await prisma.signups_daily.create({ data: { id: x1[1].signup_date, value: x1[1].signup_date } });
+
+	await prisma.signups_daily.upsert({
+		create: { time: dayjs(x1[1].signup_date).toDate(), value: Number(x1[1].signup_count) },
+		update: {},
+		where: { time: dayjs(x1[1].signup_date).toDate() },
+	});
 
 	console.log('Inserting tickets created count');
-
 	const x2 = await db.select<any>(
 		`WITH date_range AS (
       SELECT generate_series(
@@ -49,10 +54,14 @@ export const extractDailyMetrics = async () => {
     ORDER BY
       date_range.date;`
 	);
-	await prisma.tickets_daily.create({ data: { id: x2[1].ticket_date, value: x2[1].ticket_count } });
+
+	await prisma.tickets_daily.upsert({
+		create: { time: dayjs(x2[1].ticket_date).toDate(), value: Number(x2[1].ticket_count) },
+		update: {},
+		where: { time: dayjs(x2[1].ticket_date).toDate() },
+	});
 
 	console.log('Inserting business signup count');
-	// Tickets
 	const x3 = await db.select<any>(
 		`WITH date_range AS (
       SELECT generate_series(
@@ -62,16 +71,22 @@ export const extractDailyMetrics = async () => {
              )::date AS date
     )
     SELECT
-      date_range.date AS ticket_date,
-      COUNT(tickets.created_at) AS ticket_count
+      date_range.date AS busienss_date,
+      COUNT(business.created_at) AS busienss_count
     FROM
       date_range
     LEFT JOIN
-      tickets ON DATE(tickets.created_at) = date_range.date
+      business ON DATE(business.created_at) = date_range.date
     GROUP BY
       date_range.date
     ORDER BY
       date_range.date;`
 	);
-	await prisma.tickets_daily.create({ data: { id: x3[1].ticket_date, value: x3[1].ticket_count } });
+
+	await prisma.business_signups_daily.upsert({
+		create: { time: dayjs(x3[1].busienss_date).toDate(), value: Number(x3[1].busienss_count) },
+		update: {},
+		where: { time: dayjs(x3[1].busienss_date).toDate() },
+	});
+	// await prisma.business_signups_daily.upsert({ create: { data: { time: dayjs(x3[1].signup_date).toDate(), value: Number(x3[1].busienss_count) } } });
 };

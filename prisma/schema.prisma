@@ -8,11 +8,16 @@ datasource db {
 }
 
 model signups_daily {
-  id    DateTime @id @db.Timestamptz(6)
+  time  DateTime @id @db.Timestamptz(6)
   value Int?
 }
 
 model tickets_daily {
-  id    DateTime @id @db.Timestamptz(6)
+  time  DateTime @id @db.Timestamptz(6)
+  value Int?
+}
+
+model business_signups_daily {
+  time  DateTime @id(map: "businesss_daily_pkey") @db.Timestamptz(6)
   value Int?
 }
