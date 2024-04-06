@@ -10,7 +10,7 @@ export const ProductionPGClient = new PG.Pool({
 	port: 5432,
 	// options: `project=${env.DB_ENDPOINT_ID}`,
 	// This is needed since pg version 8.0 has this enalbed by default
-	...(!env.IS_PRODUCTION && {
+	...(env.IS_PRODUCTION && {
 		ssl: {
 			ca: fs.readFileSync('./us-west-2-bundle.pem').toString(),
 		},
